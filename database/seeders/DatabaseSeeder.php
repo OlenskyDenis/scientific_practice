@@ -11,8 +11,19 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() //заполняет базу с фабрикики php artisan migrate:refresh --seed || php artisan db:seed (запустить заполнение без очистки базы)
     {
-        // \App\Models\User::factory(10)->create();
+        if($this->command->confirm('Do you want to refresh the database?')) {
+            $this->command->call('migrate:refresh');
+            $this->command->info('Database was refreshed');
+        }
+
+        $this->call([
+            UserSeeder::class,
+            CoacheSeeder::class,
+            GymSeeder::class,
+            TrainingProgramSeeder::class,
+            ScheduleSeeder::class,
+        ]);
     }
 }
